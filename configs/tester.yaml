@@ -1,0 +1,31 @@
+# path to additional modules
+train_batch_size: 32
+val_batch_size: 32
+train_num_steps: 200000
+save_and_sample_every: 10000
+test_on_train: false
+device: '0'
+seed: 1234
+train_flag: false
+milestone: null
+noise_denoise: false
+demo_mode: false
+
+window: 120
+save_dir: fusion_runs
+data_root_folder: data/motion
+load_weights: false
+
+wandb:
+  use_wandb: true
+  wandb_pj_name: fusion
+  entity: enesduran
+  exp_name: fullbody_${model}
+
+
+model: motionfix  
+exp_id: 0
+model_cfg: configs/model.yaml
+data_cfg: configs/data.yaml 
+diffusion_cfg: configs/diffusion.yaml
+loss_cfg: configs/loss_setting.yaml

@@ -1,0 +1,11 @@
+executable = /lustre/fast/fast/eduran2/fusion/sh_scripts/ablation2.sh
+arguments = $(Process) $(Cluster)
+error =  /lustre/fast/fast/eduran2/fusion/cluster_logs/$(Cluster).$(Process).err
+output = /lustre/fast/fast/eduran2/fusion/cluster_logs/$(Cluster).$(Process).out
+log =    /lustre/fast/fast/eduran2/fusion/cluster_logs/$(Cluster).$(Process).log
+request_memory = 100000
+request_cpus=4
+request_gpus=1
+requirements=TARGET.CUDACapability >= 9.0  
+queue 1 
++BypassLXCfs="true"

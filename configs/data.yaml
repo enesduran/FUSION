@@ -1,0 +1,113 @@
+dataname: ''
+rot_repr: 6d
+smplx_path: data/body_models
+check_penetration_flag: false
+include_pose_augmentation: true
+include_time_augmentation: true
+
+# suboptimal way of doing this
+TRAIN_THRESHOLD: 430674
+VAL_THRESHOLD: 18520             
+TEST_THRESHOLD: 734  
+
+TRAIN_RAM_THRESHOLD_GB: 700    # val and test included
+VAL_RAM_THRESHOLD_GB: 40
+TEST_RAM_THRESHOLD_GB: 10
+
+
+body_train_datapath_list: 
+  - data/motion/Body_Processed/amass_train.p
+  - data/motion/Body_Processed/omomo_train.p
+  - data/motion/Body_Processed/samp_train.p
+  - data/motion/Body_Processed/arctic_train.p
+  - data/motion/Body_Processed/grab_train.p
+  - data/motion/Body_Processed/beat2_train.p
+  - data/motion/Body_Processed/embody3d_train.p
+  - data/motion/Body_Processed/mamma_train.p
+  - data/motion/Body_Processed/interx_train.p
+  - data/motion/Body_Processed/mamma_preds_train.p
+
+body_val_datapath_list:
+  - data/motion/Body_Processed/omomo_val.p
+  - data/motion/Body_Processed/embody3d_val.p
+  - data/motion/Body_Processed/interx_val.p
+
+body_test_datapath_list:
+  - data/motion/Body_Processed/arctic_test.p
+  - data/motion/Body_Processed/grab_test.p
+
+hand_datapath_list: 
+  - data/motion/Hand_Processed/interhands_train.p
+  - data/motion/Hand_Processed/reinterhands_train.p
+  - data/motion/Hand_Processed/grab_train.p
+  - data/motion/Hand_Processed/arctic_train.p
+  - data/motion/Hand_Processed/moyo_train.p
+  - data/motion/Hand_Processed/hot3d_train.p
+
+
+object_dataset_list:
+  - ARCTIC
+  - GRAB
+  - OMOMO
+
+hand_art_dataset_list:
+  - GRAB
+  - ARCTIC
+  - SAMP
+  - TCDHANDS  
+  - BEAT2
+  - EMBODY3D
+  - MAMMA
+  - MAMMA_PREDS
+  - INTERX
+
+preproc:
+  stats_file: data/motion/statistics.npy
+  split_seed: 0
+  generate_joint_files: true
+  use_cuda: true
+  norm_type: standardize
+
+load_feats:
+  - body_transl_delta_pelv       # 3
+  - body_orient_xy               # 6
+  - z_orient_delta               # 6
+  - body_pose                    # 324
+  - body_joints_local_wo_z_rot   # 165
+  - contact_masks                # 4
+
+# Per-dataset weighted training sampling. Coefficients act as frequencies.
+#   strategy: target_share    -> weight = c_d / N_d  =>  P(dataset d) ∝ c_d
+#                                (coefficient = absolute share, size-independent)
+#   strategy: size_multiplier -> weight = c_d         =>  P(dataset d) ∝ N_d·c_d
+#                                (coefficient multiplies the natural size-frequency)
+sampling:
+  enabled: true
+  strategy: size_multiplier
+  default_coefficient: 1.0
+  # Coefficients are RELATIVE weights — they need NOT sum to 1. The code
+  # normalizes internally (P(dataset d) = c_d / Σc with target_share) 
+  coefficients:
+    
+    # target_share
+    # AMASS: 2
+    # OMOMO: 1.2
+    # SAMP: 0.1
+    # ARCTIC: 3
+    # GRAB: 3
+    # BEAT2: 1
+    # EMBODY3D: 3
+    # MAMMA: 0.2
+    # MAMMA_PREDS: 0.6
+
+    # size multiplier
+    AMASS: 1.6
+    INTERX: 1.3
+    OMOMO: 1.8
+    SAMP: 1
+    ARCTIC: 3
+    GRAB: 2
+    BEAT2: 0.4
+    EMBODY3D: 0.8
+    MAMMA: 10
+    MAMMA_PREDS: 4

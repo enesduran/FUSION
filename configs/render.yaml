@@ -1,0 +1,58 @@
+hydra:
+  run:
+    dir: .
+  output_subdir: null
+
+dataset_path: ??
+tmp_path: /tmp/
+stamp_begin: null
+stamp_end: null
+
+subset: null
+savedir: null
+
+logger_level: INFO
+debug: false
+
+quality: false
+engine: 'eevee' # cycles/eevee
+res: high # high/med/low/ultra
+
+# for video: 1/8 frame rendered
+downsample: true
+
+gt: false
+canonicalize: true
+exact_frame: 0.5
+num: 8
+bp: false
+floor_flag: true
+long_cam_flag: false
+
+cam:
+  camera_locx: -4.5
+  camera_locy: -2.3
+  camera_locz: 3.0
+  camera_fov: 80.0  
+ 
+always_on_floor: false
+fake_trans: false
+mode: sequence
+separate_actions: false
+text_vid: false
+texture_path: checkerboard
+fixed_color: pink # pink purple grey blue green red
+
+# render options
+object_visible: true
+targets_visible: true
+human_visible: true
+
+view: "front" # right / front
+renderer: blender
+
+defaults:
+  - _self_
+
+
+smplx_faces: data/body_models/smplx.faces

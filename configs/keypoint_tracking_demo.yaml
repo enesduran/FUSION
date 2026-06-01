@@ -1,0 +1,93 @@
+# path to additional modules
+train_batch_size: 1
+val_batch_size: 1
+train_num_steps: 1000000
+save_and_sample_every: 10000
+test_on_train: false
+device: '0'
+seed: 1234
+train_flag: false
+milestone: null
+use_mse_loss: false
+demo_mode: true
+motion_filepath: data/sample_data/005.p
+load_splits: ['val']
+
+window: 120
+save_dir: fusion_runs
+data_root_folder: data/motion
+load_weights: false
+
+wandb:
+  wandb_pj_name: fusion
+  entity: enesduran
+  exp_name: fullbody_${model}
+
+
+model: motionfix 
+exp_id: 0
+model_cfg: configs/${model}/model.yaml
+data_cfg: configs/data.yaml 
+diffusion_cfg: configs/diffusion.yaml
+loss_cfg: configs/loss_setting.yaml
+task: keypoint_tracking
+
+optimizer: ADAMW
+
+stg1:
+  num_opt_steps: 8
+  lr: 4e-2
+  lr_warm_up_steps: 30
+  lr_decay_steps: 50
+   
+  closeness_scale: 1
+  contact_v_scale: 0.5
+  contact_h_scale: 0.5
+  decorrelate_scale: 1
+  hips2wrist_scale: 0
+  diff_penalty_scale: 0
+  likelihood_scale: 3
+  self_penetration_scale: 0
+  object_attendance_scale: 0
+  object_penetration_scale: 0
+  parameter_grad_mask_str: all 
+  parameter_lock_mask_str: all
+
+
+stg2:
+  num_opt_steps: 8
+  lr: 1e-2
+  lr_warm_up_steps: 100
+  lr_decay_steps: 100
+
+  closeness_scale: 1
+  contact_v_scale: 0.1
+  contact_h_scale: 0.1
+  decorrelate_scale: 1
+  hips2wrist_scale: 0
+  diff_penalty_scale: 0
+  likelihood_scale: 2
+  self_penetration_scale: 0
+  object_attendance_scale: 0
+  object_penetration_scale: 0
+  parameter_grad_mask_str: all
+  parameter_lock_mask_str: all
+
+stg3:
+  num_opt_steps: 0
+  lr: 5e-2
+  lr_warm_up_steps: 20
+  lr_decay_steps: 20
+
+  closeness_scale: 1.5
+  contact_v_scale: 0
+  contact_h_scale: 0 
+  decorrelate_scale: 0
+  hips2wrist_scale: 0 
+  diff_penalty_scale: 0
+  likelihood_scale: 0.5
+  self_penetration_scale: 0
+  object_attendance_scale: 0
+  object_penetration_scale: 0
+  parameter_grad_mask_str: hands_arms
+  parameter_lock_mask_str: hands_arms

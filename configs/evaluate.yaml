@@ -1,0 +1,87 @@
+# path to additional modules
+batch_size: 64
+save_and_sample_every: 10000
+test_on_train: false
+device: '0'
+seed: 1234
+train_flag: false
+milestone: 19
+use_mse_loss: false
+
+window: 120
+save_dir: fusion_runs
+data_root_folder: data/motion
+load_weights: false
+
+wandb:
+  wandb_pj_name: fusion
+  entity: enesduran
+  exp_name: fullbody_${model}
+
+
+model: motionfix 
+exp_id: 0
+model_cfg: configs/${model}/model.yaml
+data_cfg: configs/data.yaml 
+diffusion_cfg: configs/diffusion.yaml
+loss_cfg: configs/loss_setting.yaml
+
+
+stg1:
+  num_opt_steps: 800
+  lr: 4e-2
+  lr_warm_up_steps: 30
+  lr_decay_steps: 50
+  
+  closeness_scale: 1
+  contact_v_scale: 0
+  contact_h_scale: 0.5
+  decorrelate_scale: 2
+  hips2wrist_scale: 0
+  diff_penalty_scale: 0
+  likelihood_scale: 1
+  self_penetration_scale: 0
+  object_attendance_scale: 0
+  batch_smoothness_scale: 0
+  object_penetration_scale: 0
+  parameter_grad_mask_str: all 
+  parameter_lock_mask_str: all
+  
+
+stg2:
+  num_opt_steps: 800
+  lr: 4e-3
+  lr_warm_up_steps: 100
+  lr_decay_steps: 100
+
+  closeness_scale: 1
+  contact_v_scale: 0.1
+  contact_h_scale: 0.1
+  decorrelate_scale: 2
+  hips2wrist_scale: 0
+  diff_penalty_scale: 0
+  likelihood_scale: 0.5
+  self_penetration_scale: 0
+  object_attendance_scale: 0
+  batch_smoothness_scale: 0
+  object_penetration_scale: 0
+  parameter_grad_mask_str: all
+  parameter_lock_mask_str: all
+
+stg3:
+  num_opt_steps: 0
+  lr: 5e-2
+  lr_warm_up_steps: 0
+  lr_decay_steps: 0
+
+  closeness_scale: 1
+  contact_v_scale: 0
+  contact_h_scale: 0 
+  decorrelate_scale: 0
+  diff_penalty_scale: 0
+  likelihood_scale: 0
+  object_attendance_scale: 0
+  batch_smoothness_scale: 0
+  object_penetration_scale: 0
+  parameter_grad_mask_str: all
+  parameter_lock_mask_str: all

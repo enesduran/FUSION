@@ -1,0 +1,102 @@
+# path to additional modules
+val_batch_size: 32
+train_batch_size: 1
+train_num_steps: 1000000
+save_and_sample_every: 10000
+test_on_train: false
+device: '0'
+seed: 1234
+train_flag: false
+milestone: null
+demo_mode: false
+
+obj_contact_optimization: false
+use_clutch: false
+self_contact_optimization: true
+
+use_mse_loss: false
+
+
+window: 120
+save_dir: fusion_runs
+data_root_folder: data/motion
+load_weights: false
+
+wandb:
+  wandb_pj_name: fusion
+  entity: enesduran
+  exp_name: fullbody_${model}
+
+
+model: motionfix 
+exp_id: 0
+model_cfg: configs/${model}/model.yaml
+data_cfg: configs/data.yaml 
+diffusion_cfg: configs/diffusion.yaml
+loss_cfg: configs/loss_setting.yaml
+
+
+optimizer: ADAMW
+
+stg1:
+  num_opt_steps: 800
+  lr: 2e-2
+  lr_warm_up_steps: 30
+  lr_decay_steps: 10
+
+  closeness_scale: 0
+  contact_v_scale: 8
+  contact_h_scale: 10
+  self_contact_scale: 1
+  decorrelate_scale: 2
+  hips2wrist_scale: 0
+  diff_penalty_scale: 0
+  likelihood_scale: 2
+  self_penetration_scale: 0.4
+  object_attendance_scale: 0
+  batch_smoothness_scale: 0
+  object_penetration_scale: 0
+  parameter_grad_mask_str: all
+  parameter_lock_mask_str: all
+
+stg2:
+  num_opt_steps: 300
+  lr: 1e-2
+  lr_warm_up_steps: 50
+  lr_decay_steps: 50
+
+  closeness_scale: 0
+  contact_v_scale: 3
+  contact_h_scale: 10
+  self_contact_scale: 1
+  decorrelate_scale: 0
+  hips2wrist_scale: 0
+  diff_penalty_scale: 0
+  likelihood_scale: 1
+  self_penetration_scale: 0.2
+  object_attendance_scale: 0
+  batch_smoothness_scale: 0
+  object_penetration_scale: 0
+  parameter_grad_mask_str: all
+  parameter_lock_mask_str: all
+
+stg3:
+  num_opt_steps: 400
+  lr: 1e-2
+  lr_warm_up_steps: 20
+  lr_decay_steps: 20
+
+  closeness_scale: 0
+  contact_v_scale: 0
+  contact_h_scale: 0 
+  self_contact_scale: 2
+  decorrelate_scale: 0
+  hips2wrist_scale: 0 
+  diff_penalty_scale: 0
+  likelihood_scale: 0.5
+  self_penetration_scale: 0.1
+  object_attendance_scale: 0
+  batch_smoothness_scale: 0
+  object_penetration_scale: 0
+  parameter_grad_mask_str: hands_arms
+  parameter_lock_mask_str: hands_arms

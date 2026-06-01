@@ -1,0 +1,30 @@
+denoiser_cfg: 
+  name: motionfix_architecture
+  latent_dim: 512
+  ff_size: 1024
+  num_layers: 9
+  num_heads: 4
+  dropout: 0.1
+  activation: gelu
+
+hparams:
+  lr_scheduler: cosine_warmup
+  optim:
+    learning_rate: 2.0e-4
+    lr_final:     1.0e-5
+    t_warmup:     2000
+    t_total:      100000
+
+
+ema_decay: 0.995
+ema_update_every: 10
+
+losses: null
+diff_params: null
+nfeats: null
+loss_func_pos: 'l1'
+loss_func_feats: 'l1'
+
+
+pretrained_path: 'fusion_runs/main/0/weights/model-best.pt'
+# pretrained_path: 'fusion_runs/main/0/weights/model-0002.pt'

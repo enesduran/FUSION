@@ -1,0 +1,11 @@
+executable = /is/cluster/fast/eduran2/fusion/sh_scripts/train_ddp.sh
+arguments = configs/trainer1_setting1.yaml
+error =  /is/cluster/fast/eduran2/fusion/cluster_logs/$(Cluster).$(Process).err
+output = /is/cluster/fast/eduran2/fusion/cluster_logs/$(Cluster).$(Process).out
+log =    /is/cluster/fast/eduran2/fusion/cluster_logs/$(Cluster).$(Process).log
+request_memory = 100000
+request_cpus = 8
+request_gpus = 4
+requirements = TARGET.CUDACapability >= 8.9
++BypassLXCfs = "true"
+queue 1
