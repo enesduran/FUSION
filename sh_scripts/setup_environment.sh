@@ -1,6 +1,15 @@
 #!/bin/bash
 eval "$(conda shell.bash hook)"
 
+# This script lives in <repo>/sh_scripts/ ; operate on the repo root.
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(dirname "$SCRIPT_DIR")"
+cd "$REPO_ROOT"
+
+# ---------------------------------------------------------------------------
+# Part 1: create the conda environment
+# ---------------------------------------------------------------------------
+
 # Remove any old env
 conda env remove -n fusion_env -y
 
@@ -14,10 +23,10 @@ pip install --no-build-isolation "git+https://github.com/facebookresearch/pytorc
 
 pip install hatchling
 
-# conda install -c conda-forge pytorch-gpu==2.1.2 -y 
+# conda install -c conda-forge pytorch-gpu==2.1.2 -y
 # conda install -c fvcore -c iopath -c conda-forge fvcore iopath -y
 # conda install pytorch3d==0.7.6 -c conda-forge -y
- 
+
 
 # NumPy (let conda resolve, don’t force 2.0)
 conda install numpy==1.26.4 -y
@@ -25,43 +34,10 @@ conda install numpy==1.26.4 -y
 # Pip requirements
 pip install --no-build-isolation -r requirements.txt
 
-# Unzip bundled data package if available
-FUSION_ZIP="data.zip"
-if [ -f "$FUSION_ZIP" ]; then
-    if ! command -v unzip >/dev/null 2>&1; then
-        echo "Error: unzip is required to extract $FUSION_ZIP."
-        exit 1
-    fi
-
-    echo "Extracting $FUSION_ZIP ..."
-    unzip -o "$FUSION_ZIP" -d .
-
-    REQUIRED_PATHS=(
-        "data/body_models/smplx"
-        "data/body_models/mano"
-        "data/body_models/watertight"
-        "data/checkpoints/motionfix"
-        "data/motion/statistics.npy"
-        "data/body_models/smplx_parts_segm.pkl"
-        "data/body_models/MANO_SMPLX_vertex_ids.pkl"
-        "data/self_interaction"
-        "data/sample_data"
-        "data/sample_data_precomputed"
-    )
-
-    for path in "${REQUIRED_PATHS[@]}"; do
-        if [ ! -e "$path" ]; then
-            echo "Warning: expected extracted asset not found: $path"
-        fi
-    done
-else
-    echo "Warning: $FUSION_ZIP not found. Skipping data extraction."
-fi
-
-# prepare installing torch-mesh-isect 
+# prepare installing torch-mesh-isect
 conda activate fusion_env
 
-# get CUDA path for torch-mesh-isect installation from user 
+# get CUDA path for torch-mesh-isect installation from user
 read -p "Enter CUDA_HOME path (e.g. /is/software/nvidia/cuda-12.1): " CUDA_HOME
 export CUDA_HOME="$CUDA_HOME"
 
@@ -82,5 +58,12 @@ fi
 # install torch-mesh-isect
 cd external/torch-mesh-isect
 python setup.py install
+cd "$REPO_ROOT"
+
+# ---------------------------------------------------------------------------
+# Part 2: unzip bundled data package if available
+# ---------------------------------------------------------------------------
+
+bash "$SCRIPT_DIR/unzip_data.sh"
 
 echo "environment set up"

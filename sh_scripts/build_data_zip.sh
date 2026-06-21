@@ -1,10 +1,10 @@
 #!/bin/bash
-# Build data.zip from the exact paths that setup_environment.sh verifies.
+# Build data.zip from the exact paths that unzip_data.sh verifies.
 #
-# The path list is parsed straight out of setup_environment.sh's REQUIRED_PATHS
+# The path list is parsed straight out of unzip_data.sh's REQUIRED_PATHS
 # array, so this archive and that check can never drift apart. The resulting
 # data.zip stores paths relative to the repo root (data/...), so the matching
-# `unzip -o data.zip -d .` in setup_environment.sh reproduces the data/ tree.
+# `unzip -o data.zip -d .` in unzip_data.sh reproduces the data/ tree.
 #
 # Usage:
 #   sh_scripts/build_data_zip.sh [-o OUTPUT] [--list] [--allow-missing]
@@ -16,7 +16,7 @@ set -euo pipefail
 # This script lives in <repo>/sh_scripts/ ; operate on the repo root.
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(dirname "$SCRIPT_DIR")"
-SETUP_SH="$SCRIPT_DIR/setup_environment.sh"
+DATA_SH="$SCRIPT_DIR/unzip_data.sh"
 OUT_ZIP="$REPO_ROOT/data.zip"
 
 LIST_ONLY=0
@@ -34,7 +34,7 @@ while [ "$#" -gt 0 ]; do
     shift
 done
 
-[ -f "$SETUP_SH" ] || { echo "Error: cannot find $SETUP_SH to read REQUIRED_PATHS." >&2; exit 1; }
+[ -f "$DATA_SH" ] || { echo "Error: cannot find $DATA_SH to read REQUIRED_PATHS." >&2; exit 1; }
 if [ "$LIST_ONLY" -eq 0 ]; then
     command -v zip >/dev/null 2>&1 || { echo "Error: 'zip' is required but not installed." >&2; exit 1; }
 fi
@@ -43,10 +43,10 @@ fi
 REQUIRED_PATHS=()
 while IFS= read -r p; do
     [ -n "$p" ] && REQUIRED_PATHS+=("$p")
-done < <(sed -n '/REQUIRED_PATHS=(/,/)/p' "$SETUP_SH" | grep -oE '"[^"]+"' | tr -d '"')
+done < <(sed -n '/REQUIRED_PATHS=(/,/)/p' "$DATA_SH" | grep -oE '"[^"]+"' | tr -d '"')
 
 if [ "${#REQUIRED_PATHS[@]}" -eq 0 ]; then
-    echo "Error: could not parse any paths from REQUIRED_PATHS in $SETUP_SH." >&2
+    echo "Error: could not parse any paths from REQUIRED_PATHS in $DATA_SH." >&2
     exit 1
 fi
 
@@ -89,4 +89,4 @@ zip -r "$OUT_ZIP" "${present[@]}" -x '*.DS_Store' '*__pycache__*' '*.pyc'
 echo
 echo "Done: $OUT_ZIP ($(du -h "$OUT_ZIP" | cut -f1))"
 echo "Inspect with : unzip -l \"$OUT_ZIP\""
-echo "Extracts via : unzip -o data.zip -d .   (as in setup_environment.sh)"
+echo "Extracts via : sh_scripts/unzip_data.sh   (or unzip -o data.zip -d .)"
