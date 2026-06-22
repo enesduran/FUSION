@@ -12,7 +12,7 @@ demo_mode: false
 window: 120
 save_dir: fusion_runs
 data_root_folder: data/motion
-load_weights: false
+load_weights: true
 
 wandb:
   use_wandb: true

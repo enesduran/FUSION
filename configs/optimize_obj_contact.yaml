@@ -29,7 +29,7 @@ wandb:
 
 model: motionfix 
 exp_id: 0
-model_cfg: configs/${model}/model.yaml
+model_cfg: configs/model.yaml
 data_cfg: configs/data.yaml 
 diffusion_cfg: configs/diffusion.yaml
 loss_cfg: configs/loss_setting.yaml

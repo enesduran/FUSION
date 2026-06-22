@@ -1,4 +1,4 @@
-lambda_fc: 10
+lambda_fc: 2
 lambda_vel: 0
 lambda_rcxyz: 0
 lambda_vel_rcxyz: 0

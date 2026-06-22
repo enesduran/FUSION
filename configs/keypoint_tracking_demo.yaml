@@ -10,7 +10,7 @@ train_flag: false
 milestone: null
 use_mse_loss: false
 demo_mode: true
-motion_filepath: data/sample_data/005.p
+motion_filepath: data/sample_data/004.p
 load_splits: ['val']
 
 window: 120
@@ -26,7 +26,7 @@ wandb:
 
 model: motionfix 
 exp_id: 0
-model_cfg: configs/${model}/model.yaml
+model_cfg: configs/model.yaml
 data_cfg: configs/data.yaml 
 diffusion_cfg: configs/diffusion.yaml
 loss_cfg: configs/loss_setting.yaml
@@ -35,7 +35,7 @@ task: keypoint_tracking
 optimizer: ADAMW
 
 stg1:
-  num_opt_steps: 8
+  num_opt_steps: 800
   lr: 4e-2
   lr_warm_up_steps: 30
   lr_decay_steps: 50
@@ -55,18 +55,18 @@ stg1:
 
 
 stg2:
-  num_opt_steps: 8
-  lr: 1e-2
+  num_opt_steps: 800
+  lr: 3e-3
   lr_warm_up_steps: 100
   lr_decay_steps: 100
 
   closeness_scale: 1
-  contact_v_scale: 0.1
-  contact_h_scale: 0.1
+  contact_v_scale: 1
+  contact_h_scale:  1.5
   decorrelate_scale: 1
   hips2wrist_scale: 0
   diff_penalty_scale: 0
-  likelihood_scale: 2
+  likelihood_scale: 1
   self_penetration_scale: 0
   object_attendance_scale: 0
   object_penetration_scale: 0
@@ -74,18 +74,18 @@ stg2:
   parameter_lock_mask_str: all
 
 stg3:
-  num_opt_steps: 0
-  lr: 5e-2
-  lr_warm_up_steps: 20
-  lr_decay_steps: 20
+  num_opt_steps: 800
+  lr: 1e-3
+  lr_warm_up_steps: 100
+  lr_decay_steps: 100
 
-  closeness_scale: 1.5
+  closeness_scale: 3
   contact_v_scale: 0
   contact_h_scale: 0 
   decorrelate_scale: 0
   hips2wrist_scale: 0 
   diff_penalty_scale: 0
-  likelihood_scale: 0.5
+  likelihood_scale: 0.1
   self_penetration_scale: 0
   object_attendance_scale: 0
   object_penetration_scale: 0

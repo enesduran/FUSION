@@ -26,5 +26,5 @@ loss_func_pos: 'l1'
 loss_func_feats: 'l1'
 
 
-pretrained_path: 'fusion_runs/main/0/weights/model-best.pt'
+pretrained_path: 'data/checkpoints/motionfix/model-best.pt'
 # pretrained_path: 'fusion_runs/main/0/weights/model-0002.pt'
