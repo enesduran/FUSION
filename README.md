@@ -105,10 +105,10 @@ python train.py --trainer-file=configs/tester.yaml
 ## Optimization 
 
 
-To run optimization for keypoint tracking on test dataset, run:
+To run optimization for keypoint tracking on given demo sequences, run:
 
 ```
-python src/optim/gen_dno.py --optimizer_file=configs/keypoint_tracking.yaml
+python src/optim/gen_dno.py --optimizer_file=configs/keypoint_tracking_demo.yaml
 ```
 
 ### Self-Interaction
