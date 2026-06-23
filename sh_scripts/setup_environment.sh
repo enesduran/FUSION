@@ -74,4 +74,7 @@ cd "$REPO_ROOT"
 
 bash "$SCRIPT_DIR/unzip_data.sh"
 
+# leave the user in the fusion_env environment
+conda activate fusion_env
+
 echo "environment set up"

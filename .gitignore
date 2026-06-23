@@ -1,5 +1,6 @@
 data/*
-external/* 
+external/*
+!external/.gitkeep
 fusion_runs
 cluster_logs
 eval_logs_final
