@@ -1,4 +1,4 @@
-data
+data/*
 external 
 fusion_runs
 cluster_logs
@@ -19,6 +19,4 @@ __pycache__/
 .vscode
 
 sh_scripts/*.sub
-sh_scripts/ablation1.sh 
-sh_scripts/ablation2.sh 
-sh_scripts/ablation3.sh 
+
