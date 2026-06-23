@@ -14,7 +14,7 @@ Please register and download [FUSION](https://fusion.is.tue.mpg.de/) checkpoint.
 There is a single conda environment required to run the **FUSION**. Requirements can be found in requirements.txt. To create the environment and install necessary packages:
 
 ```
-sh sh_scripts/setup_environment.sh
+bash sh_scripts/setup_environment.sh
 ```
 
 This script also unzips the previously downloaded data.zip file. The `data` folder should look like the following (interactive visualization):

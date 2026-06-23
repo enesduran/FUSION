@@ -1,4 +1,10 @@
 #!/bin/bash
+# Re-exec under bash if invoked via `sh`. This script uses bashisms
+# (BASH_SOURCE, conda's bash hook); under dash BASH_SOURCE is empty and the
+# repo-root detection below resolves to the parent of the repo, which breaks
+# `pip install -r requirements.txt` and clones things outside the repo.
+if [ -z "${BASH_VERSION:-}" ]; then exec bash "$0" "$@"; fi
+
 eval "$(conda shell.bash hook)"
 
 # This script lives in <repo>/sh_scripts/ ; operate on the repo root.
@@ -42,17 +48,19 @@ read -p "Enter CUDA_HOME path (e.g. /is/software/nvidia/cuda-12.1): " CUDA_HOME
 export CUDA_HOME="$CUDA_HOME"
 
 
-# clone torch-mesh-isect repo if it doesn't exist
+# clone external repos into external/ if they don't exist
+mkdir -p external
+
 if [ ! -d "external/torch-mesh-isect" ]; then
     git clone https://github.com/vchoutas/torch-mesh-isect.git external/torch-mesh-isect
 fi
 
 if [ ! -d "external/HMP" ]; then
-    git clone https://github.com/enesduran/HMP.git
+    git clone https://github.com/enesduran/HMP.git external/HMP
 fi
 
 if [ ! -d "external/GrabNet" ]; then
-    git clone https://github.com/otaheri/GrabNet.git
+    git clone https://github.com/otaheri/GrabNet.git external/GrabNet
 fi
 
 # install torch-mesh-isect
