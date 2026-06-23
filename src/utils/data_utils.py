@@ -35,8 +35,22 @@ def apply_transformation_to_obj_geometry(obj_mesh_path, obj_scale, obj_rot, obj_
         return transformed_obj_verts, obj_mesh_faces
 
 
-arctic_obj_forward_simplify = ObjectTensors(load_simplified_flag=True).forward
-arctic_obj_forward_raw = ObjectTensors(load_simplified_flag=False).forward
+_arctic_obj_tensors_cache = {}
+
+
+def _get_arctic_obj_tensors(load_simplified_flag):
+    key = bool(load_simplified_flag)
+    if key not in _arctic_obj_tensors_cache:
+        _arctic_obj_tensors_cache[key] = ObjectTensors(load_simplified_flag=key)
+    return _arctic_obj_tensors_cache[key]
+
+
+def arctic_obj_forward_simplify(*args, **kwargs):
+    return _get_arctic_obj_tensors(True).forward(*args, **kwargs)
+
+
+def arctic_obj_forward_raw(*args, **kwargs):
+    return _get_arctic_obj_tensors(False).forward(*args, **kwargs)
 
 def merge_two_parts(verts_list, faces_list):
     verts_num = 0
