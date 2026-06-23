@@ -1,5 +1,5 @@
 data/*
-external 
+external/* 
 fusion_runs
 cluster_logs
 eval_logs_final
