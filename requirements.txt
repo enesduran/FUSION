@@ -13,7 +13,7 @@ smplx==0.1.28
 matplotlib==3.10.6
 pygit2==1.18.2
 openai==1.77.0
-aitviewer
+aitviewer==1.13.0
 ema-pytorch
 nvidia-ml-py3
 plyfile
