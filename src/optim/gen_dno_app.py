@@ -170,13 +170,16 @@ class OptimizerWrapper:
             # pop elements after the length.
             self.dl.dataset.data = [self.dl.dataset.data[i] for i in range(total_length)]
                          
-        # self contact optimization. Means that we are not bound to the dataset. 
+        # self contact optimization. Means that we are not bound to the dataset.
         elif optimization_cfg.self_contact_optimization:
-            # find total length 
             total_length = self_interaction_length
 
-            # pop elements after the length.
-            self.dl.dataset.data = [self.dl.dataset.data[i] for i in range(total_length)]
+            available = self.dl.dataset.data
+            keys = (list(available.keys()) if isinstance(available, dict)
+                    else list(range(len(available))))
+            assert len(keys) > 0, "No carrier sequences available for self-contact optimization."
+
+            self.dl.dataset.data = [available[keys[i % len(keys)]] for i in range(total_length)]
 
     # @staticmethod
     def find_closest_index_angle(self, grasp_dict, val_data_batch, idx):

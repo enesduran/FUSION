@@ -8,7 +8,8 @@ device: '0'
 seed: 1234
 train_flag: false
 milestone: null
-demo_mode: false
+demo_mode: true
+motion_filepath: data/sample_data/000.p
 
 obj_contact_optimization: false
 use_clutch: false
