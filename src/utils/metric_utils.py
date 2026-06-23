@@ -1,6 +1,7 @@
+import os
 import torch
 import joblib
-import trimesh 
+import trimesh
 import numpy as np 
 import multiprocessing
 from scipy import linalg
@@ -525,6 +526,9 @@ def save_metrics(gen_motion_dict, affordance_dict, out_dict):
 
 
 
-watertight_conversion_dict = joblib.load('data/body_models/watertight/conversion_dict.pkl')
+# Resolve data path relative to the repo root (src/utils/metric_utils.py -> repo root),
+# so import works regardless of the current working directory.
+_REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+watertight_conversion_dict = joblib.load(os.path.join(_REPO_ROOT, 'data/body_models/watertight/conversion_dict.pkl'))
 base2watertight_wo_hand = list(watertight_conversion_dict['watertight2base_wo_hand'].values())
 watertight_wo_hand_faces = np.array(list(watertight_conversion_dict['watertight_wo_hand_faces']))
