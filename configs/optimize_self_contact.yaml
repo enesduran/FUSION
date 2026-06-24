@@ -1,5 +1,5 @@
 # path to additional modules
-val_batch_size: 32
+val_batch_size: 4
 train_batch_size: 1
 train_num_steps: 1000000
 save_and_sample_every: 10000
