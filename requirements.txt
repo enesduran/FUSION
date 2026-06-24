@@ -5,7 +5,7 @@ tabulate
 ipdb
 wandb
 joblib
-trimesh==3.23.5
+trimesh==4.12.2
 pyrender
 omegaconf==2.3.0
 einops==0.8.1
@@ -13,7 +13,7 @@ smplx==0.1.28
 matplotlib==3.10.6
 pygit2==1.18.2
 openai==1.77.0
-aitviewer==1.13.0
+aitviewer==1.14.2
 ema-pytorch
 nvidia-ml-py3
 plyfile
